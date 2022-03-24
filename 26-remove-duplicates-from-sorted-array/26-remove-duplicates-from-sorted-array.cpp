@@ -3,19 +3,13 @@ public:
     int removeDuplicates(vector<int>& v) {
         vector <int> keys;
         int n = v.size();
+        int index = 1;
         for(int i = 1;i<v.size();i++){
-            if(v[i]==v[i-1]){
-                keys.push_back(i);
+            if(v[i]!=v[i-1]){
+                v[index] = v[i];
+                index++;
             }
         }
-        int ans = v.size()-keys.size();
-        int j = 0;
-        for(int i = 0;i<v.size();i++){
-            if(!binary_search(keys.begin(),keys.end(),i)){
-                swap(v[i],v[j]);
-                j++;
-            }
-        }
-        return ans;
+        return index;
     }
 };
