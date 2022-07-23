@@ -10,31 +10,20 @@
  * };
  */
 class Solution {
-    int mn(TreeNode* root){
-        int ans = root->val;
-        if(root->left)ans=min(ans,mn(root->left));
-        return ans;
-    }
-    int mx(TreeNode* root){
-        int ans = root->val;
-        if(root->right)ans=max(ans,mx(root->right));
-        return ans;
+    vector<int> in;
+    void fill(TreeNode* root){
+        if(root==NULL)return;
+        if(root->left)fill(root->left);
+        in.push_back(root->val);
+        if(root->right)fill(root->right);
     }
 public:
     bool isValidBST(TreeNode* root) {
-        if(root==NULL)return 1;
-        bool l = 1;
-        bool r = 1;
-        if(root->left){
-            int temp = mx(root->left);
-            if(temp>=root->val)return 0;
-            l&=isValidBST(root->left);
+        fill(root);
+        int n  = in.size();
+        for(int i=1;i<n;i++){
+            if(in[i]<=in[i-1])return 0;
         }
-        if(root->right){
-            int temp = mn(root->right);
-            if(temp<=root->val)return 0;
-            r&=isValidBST(root->right);
-        }
-        return l&r;
+        return 1;
     }
 };
